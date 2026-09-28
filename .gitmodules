@@ -1,0 +1,3 @@
+[submodule "trace_jobs_ingest"]
+	path = trace_jobs_ingest
+	url = git@github.com:4d30/trace_jobs_ingest.git
