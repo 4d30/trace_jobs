@@ -25,9 +25,9 @@ Ni=$(find $CAFS_ROOT -type f | wc -l)
 : > "$LOG_ROOT/cron.log"
 : > "$LOG_ROOT/exceptions.log"
 
-./venv/bin/python -m ingest >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
-./venv/bin/python -m index >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
-./venv/bin/python -m http-examples.generate_payloads >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
+./venv/bin/python -m trace_jobs_ingest >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
+./venv/bin/python -m trace_jobs_index >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
+./venv/bin/python -m trace_jobs_http_examples.generate_payloads >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
 
 N=$(find $CAFS_ROOT -type f | wc -l)
 END_EPOCH=$(date +%s)
