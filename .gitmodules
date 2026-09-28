@@ -7,3 +7,6 @@
 [submodule "trace_jobs_api"]
 	path = trace_jobs_api
 	url = git@github.com:4d30/trace_jobs_api.git
+[submodule "trace_jobs_graph"]
+	path = trace_jobs_graph
+	url = git@github.com:4d30/trace_jobs_graph.git
