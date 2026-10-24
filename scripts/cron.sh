@@ -20,11 +20,11 @@ FAIL=0
 LOG_ROOT=$DATA_ROOT/logs
 
 Ni=$(find $CAFS_ROOT -type f | wc -l)
-#log "START time=$START_HUMAN start_epoch=$START_EPOCH initial_count=$Ni"
 
 : > "$LOG_ROOT/cron.log"
-: > "$LOG_ROOT/exceptions.log"
+: > "$LOG_ROOT/ingestion_exceptions.log"
 
+# Cron calls these, so stdout goes in cron.log and then module exceptions are handled within the module
 ./venv/bin/python -m trace_jobs_ingest >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
 ./venv/bin/python -m trace_jobs_index >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
 ./venv/bin/python -m trace_jobs_http_examples.generate_payloads >> "$LOG_ROOT/cron.log" 2>&1 || FAIL=1
@@ -46,14 +46,8 @@ if [ "$FAIL" -ne 0 ]; then
 
         echo ""
         echo "===== EXCEPTIONS ====="
-        cat "$LOG_ROOT/exceptions.log"
+        cat "$LOG_ROOT/ingestion_exceptions.log"
     } | mail -r "$EMAIL" -s "TRACE ingestion failure" "$EMAIL"
 
     exit 1
 fi
-
-
-#if [ "$FAIL" -ne 0 ]; then
-#    mail -r $EMAIL -s "TRACE ingestion failure" $EMAIL < "$ROOT/cron.log"
-#    exit 1
-#fi
